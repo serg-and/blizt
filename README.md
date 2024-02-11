@@ -2,7 +2,7 @@
 
 A blazingly fast type validation librari for Javascript runtimes, leveraging the power of native rust code.
 
-Still under development.
+Still under development, more data types are command and parsing large object can be sped up.
 
 Preliminary benchmark results (see [Bench](./bench/)):
 
