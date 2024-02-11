@@ -1,4 +1,4 @@
-# bench
+# blizt benchmark util
 
 To install dependencies:
 

@@ -27,7 +27,7 @@ const valiS = (schema: v.BaseSchema) => ({
 const myzS = (schema: MyzodAnyType) => ({ name: 'myzod', schema })
 
 const suite = new BenchSuite({
-  warmup: 100,
+  warmup: 10,
   count: 1000,
 })
 
