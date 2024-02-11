@@ -1,0 +1,18 @@
+{
+  "name": "blizt-win32-x64-msvc",
+  "version": "0.0.0",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "blizt.win32-x64-msvc.node",
+  "files": [
+    "blizt.win32-x64-msvc.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}
