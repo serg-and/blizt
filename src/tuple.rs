@@ -42,9 +42,6 @@ impl BTuple {
     }
 
     let obj: JsObject = value.try_into()?;
-    if !obj.is_array()? {
-      return Err(Error::new(Status::ArrayExpected, "Array expected"));
-    }
 
     let expected_len = self.inner.len();
     let val_len = obj.get_array_length()?;
@@ -58,14 +55,11 @@ impl BTuple {
       ));
     }
 
-    let mut array = env.create_array_with_length(expected_len)?;
-
     for (i, b_type) in self.inner.iter().enumerate() {
       let el = obj.get_element::<JsUnknown>(i as u32)?;
-      let parsed = parse_btype(&b_type, el, env)?;
-      array.set_element(i as u32, parsed)?;
+      parse_btype(&b_type, el, env)?;
     }
 
-    Ok(array.into_unknown())
+    Ok(obj.into_unknown())
   }
 }

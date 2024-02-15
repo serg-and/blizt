@@ -1,4 +1,4 @@
-use napi::{bindgen_prelude::ClassInstance, Env, Error, JsObject, JsUnknown, Result, Status};
+use napi::{bindgen_prelude::ClassInstance, Env, JsObject, JsUnknown, Result};
 
 use crate::{
   common::{invalid_arg, parse_btype},
@@ -47,10 +47,6 @@ impl BArray {
     }
 
     let obj: JsObject = value.try_into()?;
-    if !obj.is_array()? {
-      return Err(Error::new(Status::ArrayExpected, "Array expected"));
-    }
-
     let length = obj.get_array_length()?;
 
     if let Some(expected) = self.len {
@@ -76,28 +72,12 @@ impl BArray {
       }
     }
 
-    // Ok(
-    //     (0..length)
-    //         .map(|i| {
-    //         let el = obj.get_element::<JsUnknown>(i)?;
-    //         Ok(match &*self.inner {
-    //             BType::Boolean(s) => s.parse(el)?,
-    //             BType::Number(s) => s.parse(el)?,
-    //             _ => Err(invalid_arg("idk"))?,
-    //         })
-    //     })
-    //     .collect::<Result<Vec<JsUnknown>>>()?,
-    // )
-
-    let mut array = env.create_array_with_length(length as usize)?;
-
     for i in 0..length {
-      let el = obj.get_element::<JsUnknown>(i)?;
-      let parsed = parse_btype(&self.inner, el, env)?;
-      array.set_element(i, parsed)?;
+      let el = obj.get_element_unchecked::<JsUnknown>(i)?;
+      parse_btype(&self.inner, el, env)?;
     }
 
-    Ok(array.into_unknown())
+    Ok(obj.into_unknown())
   }
 
   #[napi(ts_return_type = "BArray<R>")]

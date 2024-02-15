@@ -41,8 +41,7 @@ impl BString {
     }
 
     let js_string: JsString = value.try_into()?;
-    // quite inefficient, but insure what string encoding is used by Node so use utf16 for now
-    // let str = js_string.into_utf16()?.as_str()?;
+    // TODO: unsure if using utf16 or utf8 is better, speeds differs based on input;
     let js_utf8 = js_string.into_utf8()?;
     let str = js_utf8.as_str()?;
     let length = str.len() as u32;

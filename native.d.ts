@@ -100,6 +100,13 @@ export class BObject<R> {
    * Optional and Nullable parameters of both objects are ignored for new object.
    */
   merge<T>(schema: BObject<T>): BObject<Omit<Exclude<R, null | undefined>, keyof Exclude<T, null | undefined>> & Exclude<T, null | undefined>>
+  /**
+   * Strict does not allow unknown keys when parsing.
+   * When not strict onknown object keys are removed from the value, when strict parsing fails.
+   */
+  strict(): BObject<R>
+  /** Removes strict option. */
+  unStrict(): BObject<R>
 }
 export class BString<R> {
   optional(): BString<R | undefined>
@@ -134,6 +141,7 @@ export class BTuple<R> {
   /** For internal use only! */
   static _fromWrapped(wrapped: Array<BWrapped>): unknown
   parse(value: unknown): R
+  parse2(value: unknown): R
 }
 export class BUndefined<R> {
   optional(): BUndefined<R | undefined>
